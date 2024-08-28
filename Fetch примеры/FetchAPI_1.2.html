@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .user-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .user-card h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>User List</h1>
+    <div id="user-list"></div> <!-- Блок для отображения списка пользователей -->
+    
+    <script>
+        // URL публичного API для получения списка пользователей
+        const url = 'https://jsonplaceholder.typicode.com/users';
+
+        // Выполняем запрос к API для получения данных о пользователях
+        fetch(url)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json(); // Преобразуем ответ в JSON
+          })
+          .then(data => {
+              const userList = document.getElementById('user-list');
+              
+              // Перебираем пользователей и добавляем их на страницу
+              data.forEach(user => {
+                  const userCard = document.createElement('div');
+                  userCard.className = 'user-card';
+                  userCard.innerHTML = `
+                    <h2>${user.name}</h2>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                    <p><strong>Phone:</strong> ${user.phone}</p>
+                    <p><strong>Website:</strong> <a href="http://${user.website}" target="_blank">${user.website}</a></p>
+                    <p><strong>Address:</strong> ${user.address.street}, ${user.address.city}</p>
+                  `;
+                  userList.appendChild(userCard);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

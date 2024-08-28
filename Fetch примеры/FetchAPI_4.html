@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Animal Facts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .fact-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .fact-card p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Facts</h1>
+    <button id="fetch-fact">Get Random Fact</button>
+    <div id="fact-container"></div> <!-- Блок для отображения фактов -->
+    
+    <script>
+        // URL публичного API для получения случайного факта
+        const url = 'https://uselessfacts.jsph.pl/random.json?language=en';
+
+        document.getElementById('fetch-fact').addEventListener('click', () => {
+            // Выполняем запрос к API для получения случайного факта
+            fetch(url)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json(); // Преобразуем ответ в JSON
+              })
+              .then(data => {
+                  const factContainer = document.getElementById('fact-container');
+                  
+                  // Очистка предыдущего факта
+                  factContainer.innerHTML = '';
+                  
+                  // Создаем элемент div и добавляем факт
+                  const factCard = document.createElement('div');
+                  factCard.className = 'fact-card';
+                  factCard.innerHTML = `<p>${data.text}</p>`;
+                  
+                  // Добавляем факт на страницу
+                  factContainer.appendChild(factCard);
+              })
+              .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

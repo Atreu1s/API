@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #product { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Каталог товаров</h1>
+    <label for="productId">Введите ID товара:</label>
+    <input type="number" id="productId" min="1" max="10">
+    <button onclick="getProduct()">Получить товар</button>
+
+    <div id="product">
+        <!-- Данные о товаре будут отображены здесь -->
+    </div>
+
+    <script>
+        function getProduct() {
+            const id = document.getElementById('productId').value;
+            if (!id) {
+                alert('Пожалуйста, введите ID товара.');
+                return;
+            }
+            
+            fetch(`http://rest3/main.php?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const productDiv = document.getElementById('product');
+                    if (data.message) {
+                        productDiv.innerHTML = `<p>${data.message}</p>`;
+                    } else {
+                        productDiv.innerHTML = `
+                            <h2>Товар</h2>
+                            <p><strong>ID:</strong> ${data.id}</p>
+                            <p><strong>Название:</strong> ${data.name}</p>
+                            <p><strong>Цена:</strong> ${data.price} $</p>
+                        `;
+                    }
+                })
+                .catch(error => console.error('Ошибка:', error));
+        }
+    </script>
+</body>
+</html>

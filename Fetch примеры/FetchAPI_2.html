@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List Example</title>
+</head>
+<body>
+    <h1>User List</h1>
+    <ul id="user-list"></ul> <!-- Список для отображения пользователей -->
+    
+    <script>
+        // Выполняем запрос к API для получения списка пользователей
+        fetch('https://jsonplaceholder.typicode.com/users')
+          .then(response => response.json()) // Преобразуем ответ в JSON
+          .then(data => {
+              const userList = document.getElementById('user-list');
+              
+              // Перебираем пользователей и добавляем их в список на странице
+              data.forEach(user => {
+                  const listItem = document.createElement('li');
+                  listItem.textContent = `${user.name} - ${user.email}`;
+                  userList.appendChild(listItem);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

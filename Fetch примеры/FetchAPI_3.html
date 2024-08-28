@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Dog Image</title>
+</head>
+<body>
+    <h1>Random Dog Image</h1>
+    <div id="dog-image-container"></div> <!-- Блок для отображения изображения собаки -->
+    
+    <script>
+        // URL публичного API для получения случайного изображения собаки
+        const url = 'https://dog.ceo/api/breeds/image/random';
+
+        // Выполняем запрос к API для получения случайного изображения собаки
+        fetch(url)
+          .then(response => response.json()) // Преобразуем ответ в JSON
+          .then(data => {
+              const dogImageContainer = document.getElementById('dog-image-container');
+              
+              // Создаем элемент img и задаем ему источник из ответа API
+              const img = document.createElement('img');
+              img.src = data.message;
+              img.alt = 'Random Dog Image';
+              img.style.maxWidth = '400px'; // Ограничиваем максимальную ширину изображения
+              img.style.height = 'auto';
+
+              // Добавляем изображение на страницу
+              dogImageContainer.appendChild(img);
+          })
+          .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
